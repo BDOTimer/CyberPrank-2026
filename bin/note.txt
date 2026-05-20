@@ -1,0 +1,2 @@
+    <script src="TemplateData/skulpt.min.js"></script>
+    <script src="TemplateData/skulpt-stdlib.js"></script>
