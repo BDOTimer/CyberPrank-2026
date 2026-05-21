@@ -6,8 +6,8 @@
     <title>Unity Web Player | CyberPrank-2026</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-    <script src="https://skulpt.org/js/skulpt.min.js"></script>
-    <script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+    <script src="StreamingAssets/Skulpt/skulpt.min.js"></script>
+    <script src="StreamingAssets/Skulpt/skulpt-stdlib.js"></script>
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -54,12 +54,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/gh-pages.loader.js";
+      var loaderUrl = buildUrl + "/docs.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/gh-pages.data.unityweb",
-        frameworkUrl: buildUrl + "/gh-pages.framework.js.unityweb",
-        codeUrl: buildUrl + "/gh-pages.wasm.unityweb",
+        dataUrl: buildUrl + "/docs.data.unityweb",
+        frameworkUrl: buildUrl + "/docs.framework.js.unityweb",
+        codeUrl: buildUrl + "/docs.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "CyberPrank-2026",

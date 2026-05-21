@@ -1,5 +1,5 @@
-    <script src="TemplateData/skulpt.min.js"></script>
-    <script src="TemplateData/skulpt-stdlib.js"></script>
+    <script src="StreamingAssets/Skulpt/skulpt.min.js"></script>
+    <script src="StreamingAssets/Skulpt/skulpt-stdlib.js"></script>
     
     
 <!DOCTYPE html>
