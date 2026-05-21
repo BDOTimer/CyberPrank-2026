@@ -15,10 +15,12 @@ namespace CP2026
         private static extern void RunPython(string code);
 
         [SerializeField] private TextMeshProUGUI textTMP;
+        [SerializeField] private bool       isOn = false;
 
         private PythonTask task;
         private int        idTask = 0;
         private bool       isWait = false;
+        
 
         public enum Mode
         {
@@ -52,25 +54,35 @@ namespace CP2026
                 }
             }
 
+            if (!isOn)
+            {
+                textTMP.color = Color.red;
+
+                textTMP.fontMaterial.SetColor("_FaceColor", Color.red);
+
+                textTMP.text = "... выключен ...";
+                return;
+            }
+
             #if !UNITY_EDITOR && UNITY_WEBGL
                 // Инициализируем Skulpt при старте игры
                 InitSkulpt();
-                textTMP.text = "Skulpt инициализирован (WebGL). Тест-версия. Жми ПРОБЕЛ!";
+                textTMP.text = "Skulpt инициализирован (WebGL). Тест-версия. Жми ENTER!";
             #else
                 textTMP.text = "Запустите WebGL билд для работы Python";
             #endif
-
-            task = CP2026.XlatPythonTasks.Instance.GetTask(idTask);
         }
 
         private void Update()
         {
-            if(Keyboard.current.spaceKey.wasPressedThisFrame && !isWait)
+            if (!isOn) return;
+
+            if(Keyboard.current.enterKey.wasPressedThisFrame && !isWait)
             {
                 switch(_mode)
                 {
                     case Mode.Start:
-                        textTMP.text = "Чтобы начать нажми ПРОБЕЛ!";
+                        textTMP.text = "Чтобы начать нажми ENTER!";
                         _mode = Mode.Name;
                         break;
                         

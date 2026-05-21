@@ -63,14 +63,16 @@ namespace CP2026
             {   Destroy(gameObject);
             }
 
+            Debug.Assert(_pythonTasksAsset != null);
+
             // Получаем интерфейс из ассета
             _pythonTasks = _pythonTasksAsset as IPythonTasks;
+
+            Debug.Assert(_pythonTasks != null);
         }
 
         void Start()
         {
-            Debug.Assert(_pythonTasks != null);
-
             Test();
         }
 
@@ -81,7 +83,10 @@ namespace CP2026
         private void Test()
         {   Debug.Log($"🔭");
             PythonTask task = XlatPythonTasks.Instance.GetTask(0);
-                       task.debug();
+            //         task.debug();
+
+            Debug.Assert(task.Name    != null);
+            Debug.Assert(task.Name.Length > 0);
         }
 
           // Статический метод для доступа к синглтону

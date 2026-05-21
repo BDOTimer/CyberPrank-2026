@@ -37,7 +37,7 @@ public class FirstPersonController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         playerCamera = GetComponentInChildren<Camera>();
-        PlayerInput playerInput = GetComponent<PlayerInput>();
+        PlayerInput playerInput = GetComponent<PlayerInput>(); Debug.Assert(playerInput != null);
         sprintAction = playerInput.actions["Sprint"];
         quitAction = playerInput.actions["Quit"];
         quitAction.performed += ctx => OnQuitPressed();

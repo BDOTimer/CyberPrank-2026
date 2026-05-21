@@ -12,4 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 712c6e7d5548a364fb205b1830ec517a, type: 3}
   m_Name: PythonTasksData_01
   m_EditorClassIdentifier: Assembly-CSharp::CP2026.PythonTasksData_01
-  data: []
