@@ -55,7 +55,7 @@ namespace CP2026
             #if !UNITY_EDITOR && UNITY_WEBGL
                 // Инициализируем Skulpt при старте игры
                 InitSkulpt();
-                textTMP.text = "Skulpt инициализирован (WebGL)";
+                textTMP.text = "Skulpt инициализирован (WebGL). Тест-версия. Жми ПРОБЕЛ!";
             #else
                 textTMP.text = "Запустите WebGL билд для работы Python";
             #endif
