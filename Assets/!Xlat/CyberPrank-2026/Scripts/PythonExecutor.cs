@@ -18,7 +18,7 @@ namespace CP2026
 
         private PythonTask task;
         private int        idTask = 0;
-        private string     pythonAnswer = "???";
+        private bool       isWait = false;
 
         public enum Mode
         {
@@ -65,7 +65,7 @@ namespace CP2026
 
         private void Update()
         {
-            if(Keyboard.current.spaceKey.wasPressedThisFrame)
+            if(Keyboard.current.spaceKey.wasPressedThisFrame && !isWait)
             {
                 switch(_mode)
                 {
@@ -91,18 +91,13 @@ namespace CP2026
                         break;
 
                     case Mode.Answer :
+                        isWait = true;
                         ExecutePlayerCode(task.Decision);
-
-                        if(pythonAnswer == "???")
-                        {   textTMP.text = "Ответ для проверки: " + task.Answer;
-                        }
-                        else textTMP.text = "Ответ Питона: " + pythonAnswer;
-
                         _mode = Mode.End;
                         break;
 
                     case Mode.End  :
-                        textTMP.text = "> Сеанс закончен!";
+                        textTMP.text = "Сеанс закончен!"; /// 🔔
                         _mode = Mode.Start;
                         break;
                 }
@@ -114,27 +109,42 @@ namespace CP2026
             #if !UNITY_EDITOR && UNITY_WEBGL
                 RunPython(pythonCode);
             #else
-                Debug.Log("Код выполняется только в WebGL сборке");
+                Debug.Log("⛔ Код выполняется только в WebGL сборке");
+                textTMP.text = "Код выполняется только в WebGL сборке"; /// ⛔
+                isWait = false;
             #endif
         }
 
         // Этот метод будет вызван из JavaScript через SendMessage
         public void OnPythonOutput(string text)
         {
-            Debug.Log("Python вывод: " + text);
-            // Здесь можно обновить ваш TextMeshProUGUI
-            if (textTMP != null) textTMP.text = text;
+            isWait = false;
+
+            if (textTMP != null)
+            {   textTMP.text = "Ответ Питона: " + text +
+
+                (ValidateAnswer(text) ? "Чувак, ты ошибься ..." : "Ответ принят!"); /// ❌ ✅
+            }
         }
 
         public void OnPythonSuccess(string message)
-        {
+        {   
+            isWait = false;
+
             Debug.Log($"Python успех: {message}");
         }
 
         public void OnPythonError(string error)
-        {
-            Debug.LogError($"Python err: {error}");
-            if (textTMP != null) textTMP.text = $"Ошибка: {error}";
+        {   
+            isWait = false;
+
+            if (textTMP != null)
+            {   textTMP.text = $"Ошибка: {error}";
+            }
+        }
+
+        private bool ValidateAnswer(string answer)
+        {   return answer == task.Answer;
         }
     }
 }
