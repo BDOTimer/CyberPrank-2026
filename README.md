@@ -1,4 +1,6 @@
 # CyberPrank-2026
 Элитарная игра для умников ...
 
-https://bdotimer.github.io/CyberPrank-2026/
+<div align="center">
+  <a href="https://bdotimer.github.io/CyberPrank-2026/"><img src="!axx/rungame.png" alt="Запус игры..."></a>
+</div>
