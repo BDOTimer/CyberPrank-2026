@@ -14,6 +14,9 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float jumpHeight = 1.0f;
     [SerializeField] private float gravity = 9.81f;
 
+    [SerializeField] private float maxInteractDistance = 10f;
+    [SerializeField] private LayerMask interactLayerMask;
+
     private float targetRotationX = 0.0f;
     private float currentRotationX = 0.0f;
     private float targetRotationY = 0.0f;
@@ -29,18 +32,24 @@ public class FirstPersonController : MonoBehaviour
     private Vector2 lookInput = Vector2.zero;
     private InputAction sprintAction;
     private InputAction quitAction;
+    private InputAction attackAction;
     private bool jumpRequested = false;
     private bool isGrounded = false;
     private float verticalVelocity = 0.0f;
+
+    private IInteractable interactableObject;
 
     void Awake()
     {
         controller = GetComponent<CharacterController>();
         playerCamera = GetComponentInChildren<Camera>();
-        PlayerInput playerInput = GetComponent<PlayerInput>(); Debug.Assert(playerInput != null);
+        PlayerInput playerInput = GetComponent<PlayerInput>();
         sprintAction = playerInput.actions["Sprint"];
         quitAction = playerInput.actions["Quit"];
+        attackAction = playerInput.actions["Attack"];
         quitAction.performed += ctx => OnQuitPressed();
+        attackAction.performed += ctx => OnAttackPerformed();
+        attackAction.canceled += ctx => OnAttackCanceled();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -124,4 +133,40 @@ public class FirstPersonController : MonoBehaviour
             Application.Quit();
         #endif
     }
+
+    private void OnAttackPerformed()
+    {
+        if (playerCamera == null) return;
+
+        // Cast a ray forward from the camera
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        RaycastHit hit;
+
+        // Check if the ray hits an object on the interactable layer
+        if (Physics.Raycast(ray, out hit, maxInteractDistance, interactLayerMask))
+        {
+            // If the object has an IInteractable component
+            if (hit.collider.TryGetComponent(out IInteractable interactable))
+            {
+                interactableObject = interactable;
+                interactable.OnInteract(hit.distance);
+            }
+        }
+
+    }
+
+    private void OnAttackCanceled()
+    {
+        if (interactableObject == null) return;
+
+        interactableObject.OnInteractCanceled();
+        interactableObject = null;
+    }
+
+}
+
+public interface IInteractable
+{
+    void OnInteract(float hitDistance);
+    void OnInteractCanceled();
 }

@@ -20,7 +20,7 @@ namespace CP2026
         private PythonTask task;
         private int        idTask = 0;
         private bool       isWait = false;
-        
+        private bool   isOnceInit = false;
 
         public enum Mode
         {
@@ -55,25 +55,30 @@ namespace CP2026
             }
 
             if (!isOn)
-            {
-                textTMP.color = Color.red;
-
-                textTMP.fontMaterial.SetColor("_FaceColor", Color.red);
-
-                textTMP.text = "... выключен ...";
+            {   DoOff();
                 return;
             }
+        }
+
+        private void InitPython()
+        {
+            if(!isOnceInit)
+            {
+                Debug.Log("🟢");
 
             #if !UNITY_EDITOR && UNITY_WEBGL
                 // Инициализируем Skulpt при старте игры
                 InitSkulpt();
-                textTMP.text = "Skulpt инициализирован (WebGL). Тест-версия. Жми ENTER!";
+                textTMP.text = "Skulpt инициализирован (WebGL).\nТест-версия. \nЖми ENTER!";
+
+                isOnceInit = true;
             #else
                 textTMP.text = "Запустите WebGL билд для работы Python";
             #endif
+            }
         }
 
-        private void Update()
+        public void LoopInput()
         {
             if (!isOn) return;
 
@@ -157,6 +162,27 @@ namespace CP2026
 
         private bool ValidateAnswer(string answer)
         {   return answer == task.Answer;
+        }
+
+        public void DoOn()
+        {
+            InitPython();
+
+            _mode  = Mode.Start;
+            isWait = false;
+
+            isOn = true;
+            textTMP.color = Color.green;
+            textTMP.fontMaterial.SetColor("_FaceColor", Color.green);
+            textTMP.text = "Добро пожаловать в систему!";
+        }
+
+        public void DoOff()
+        {   
+            isOn = false;
+            textTMP.color = Color.red;
+            textTMP.fontMaterial.SetColor("_FaceColor", Color.red);
+            textTMP.text = "... выключен ...";
         }
     }
 }
