@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace CP2026
 {
@@ -18,18 +19,38 @@ namespace CP2026
 
     public class Monitor : MonoBehaviour, IControl
     {
-        [SerializeField] private float           accessDistance = 2f;
-        [SerializeField] private PythonExecutor  pythonExecutor;
+        [Header("Settings")]
+        [SerializeField] private float accessDistance = 2f;
         [SerializeField] private TextMeshProUGUI textTMP;
-        [SerializeField] private bool            isOn = false;
-        [SerializeField] private Color           colorWork = Color.green;
+        [SerializeField] private bool isOn = false;
+        [SerializeField] private Color colorWork = Color.green;
+
+        [Header("Control")]
+        [SerializeField] private PythonExecutor pythonExecutor;
+        [SerializeField] private CustomKeyboardManager customKeyboardManager;
 
         IGoodbye _goodbye;
 
+        static string Help =
+        "\nСПРАВКА:\n" +
+        "  task - Получить задание\n" +
+        "  exe  - Послать  решение\n" +
+        "  help - Получить решение\n" +
+        "  cls  - Очистить экран\n"   +
+        "  exit - Выключить компьютер\n";
+
+
+        public static string[] Vob = new string[]
+        {   "task",
+            "help"
+        };
+
+
         void Awake()
         {
-            Debug.Assert( pythonExecutor != null );
-            Debug.Assert( textTMP        != null );
+            Debug.Assert( pythonExecutor        != null );
+            Debug.Assert( textTMP               != null );
+            Debug.Assert( customKeyboardManager != null );
         }
 
         void Start()
@@ -46,7 +67,9 @@ namespace CP2026
         {
             if (!isOn) return;
 
-            pythonExecutor.LoopInput();
+            customKeyboardManager.Loop();
+
+            //pythonExecutor.DoStep();
         }
 
         public void Hello(IGoodbye goodbye)
@@ -76,9 +99,11 @@ namespace CP2026
 
             textTMP.color = colorWork;
             textTMP.fontMaterial.SetColor("_FaceColor", colorWork);
-            textTMP.text = str + "Добро пожаловать в систему!";
+            textTMP.text = str + "Добро пожаловать в систему!\n" + Help;
 
             SetSpeedFans(30);
+
+            customKeyboardManager.On();
         }
 
         void DoOff()
@@ -90,6 +115,8 @@ namespace CP2026
             textTMP.text = "... выключен ...";
 
             SetSpeedFans(0);
+
+            customKeyboardManager.Off();
         }
 
         void SetSpeedFans(float speedPersent)
@@ -98,6 +125,11 @@ namespace CP2026
             if( fc != null )
             {   fc.SetSpeed(speedPersent);
             }
+        }
+
+        public void Exit()
+        {   _goodbye.Goodbye();
+            Hello(null);
         }
     }
 }

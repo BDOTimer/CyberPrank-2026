@@ -39,6 +39,8 @@ public class FirstPersonController : MonoBehaviour
 
     private IInteractable interactableObject;
 
+    [HideInInspector] public bool IsKeys = true; /// +
+
     void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -81,7 +83,10 @@ public class FirstPersonController : MonoBehaviour
     void Update()
     {
         HandleCameraRotation();
-        HandleMovement();
+
+        if(IsKeys) /// +
+        {   HandleMovement();
+        }
     }
 
     private void HandleCameraRotation()

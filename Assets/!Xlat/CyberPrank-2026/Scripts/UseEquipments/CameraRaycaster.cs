@@ -43,12 +43,6 @@ namespace CP2026
             ///--------------------:
             if( _iControl != null )
             {   _iControl.Control();
-
-                if(Keyboard.current.digit1Key.wasPressedThisFrame)
-                {
-                    _iControl.Hello(null);
-                    _iControl = null;
-                }
             }
         }
     
@@ -143,10 +137,8 @@ namespace CP2026
         }
 
         public void Goodbye()
-        {
+        {   Debug.Log($"Объект {_iControl.Name()} закончил контакт ...");
             _iControl = null;
-
-            Debug.Log($"Объект {_iControl.Name()} закончил контакт ...");
         }
     }
 }

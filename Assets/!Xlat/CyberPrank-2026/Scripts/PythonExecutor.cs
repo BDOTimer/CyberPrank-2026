@@ -52,8 +52,6 @@ namespace CP2026
 
             if(!isOnceInit)
             {
-                Debug.Log("🟢");
-
             #if !UNITY_EDITOR && UNITY_WEBGL
                 // Инициализируем Skulpt при старте игры
                 InitSkulpt();
@@ -66,9 +64,9 @@ namespace CP2026
             }
         }
 
-        public void LoopInput()
+        public void DoStep()
         {
-            if(Keyboard.current.enterKey.wasPressedThisFrame && !isWait)
+            if(!isWait)
             {
                 switch(_mode)
                 {
@@ -106,6 +104,39 @@ namespace CP2026
                 }
             }
         }
+
+        public void SendCommand(string command)
+        {
+            Debug.Log($"🟢 {command}");
+
+            if(command == "task" && _mode != Mode.Condition)
+            {   
+                _mode = Mode.Condition;
+
+                task = CP2026.XlatPythonTasks.Instance.GetTask(idTask++);
+
+                textTMP.text = task.Name + "\n" + task.Condition + "\n";
+                return;
+            }
+
+            if(command == "help" && _mode == Mode.Condition)
+            {   
+                _mode = Mode.Decision;
+
+                textTMP.text += "\n" + task.Decision + "\n";
+                return;
+            }
+
+            textTMP.text = "\n<color=#FFD700>... попробуй другую команду ...</color>\n";
+        }
+
+        public void SendText(string message)
+        {
+            isWait = true;
+            ExecutePlayerCode(message);
+        }
+
+        public bool IsReady(){ return !isWait;  }
 
         public void ExecutePlayerCode(string pythonCode)
         {
