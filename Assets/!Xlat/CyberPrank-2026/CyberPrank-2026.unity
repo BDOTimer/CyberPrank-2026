@@ -347,13 +347,13 @@ GameObject:
   - component: {fileID: 410087041}
   - component: {fileID: 410087040}
   - component: {fileID: 410087042}
-  m_Layer: 0
-  m_Name: Directional Light
+  m_Layer: 5
+  m_Name: DirLightUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &410087040
 Light:
   m_ObjectHideFlags: 0
@@ -365,7 +365,7 @@ Light:
   serializedVersion: 13
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -402,8 +402,8 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
+    m_Bits: 32
+  m_RenderingLayerMask: 0
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
@@ -454,7 +454,7 @@ MonoBehaviour:
   m_SoftShadowQuality: 1
   m_RenderingLayersMask:
     serializedVersion: 0
-    m_Bits: 1
+    m_Bits: 0
   m_ShadowRenderingLayersMask:
     serializedVersion: 0
     m_Bits: 1
@@ -1363,6 +1363,10 @@ PrefabInstance:
       propertyPath: pythonExecutor
       value: 
       objectReference: {fileID: 5631043875254507746}
+    - target: {fileID: 1909055197672983458, guid: 293e3fe90a8d7244583670d91ec72cd5, type: 3}
+      propertyPath: enableKeyboardInput
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1909055197672983458, guid: 293e3fe90a8d7244583670d91ec72cd5, type: 3}
       propertyPath: firstPersonController
       value: 
