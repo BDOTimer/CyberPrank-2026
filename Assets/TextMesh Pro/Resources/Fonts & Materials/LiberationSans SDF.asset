@@ -54,7 +54,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Ambient: 0.3
+    - _Ambient: 0
     - _BevelAmount: 0
     - _BevelClamp: 0
     - _BevelOffset: 0
@@ -64,7 +64,7 @@ Material:
     - _ColorMask: 15
     - _CullMode: 0
     - _Cutoff: 1
-    - _Diffuse: 0.3
+    - _Diffuse: 0
     - _FaceDilate: 0.1
     - _GradientScale: 10
     - _LightAngle: 0

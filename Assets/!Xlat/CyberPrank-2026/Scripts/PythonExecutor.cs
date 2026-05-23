@@ -14,8 +14,7 @@ namespace CP2026
         [DllImport("__Internal")]
         private static extern void RunPython(string code);
 
-        [SerializeField] private TextMeshProUGUI textTMP;
-        [SerializeField] private bool       isOn = false;
+        private TextMeshProUGUI textTMP;
 
         private PythonTask task;
         private int        idTask = 0;
@@ -35,33 +34,22 @@ namespace CP2026
 
         Mode _mode = Mode.Start;
 
-        private void Start()
-        {   
+        //private void Start()
+        //{   
+
+        //}
+
+        private void InitPython()
+        {
             if (textTMP == null)
             {
-                // Ищем на том же объекте
-                textTMP = GetComponent<TextMeshProUGUI>();
-        
-                // Если не нашли, ищем в дочерних объектах
-                if (textTMP == null)
-                    textTMP = GetComponentInChildren<TextMeshProUGUI>();
-        
                 // Если всё ещё null — ошибка
                 if (textTMP == null)
-                {
-                    Debug.LogError("TextMeshProUGUI не найден! Повесьте компонент вручную.", this);
+                {   Debug.LogError("TextMeshProUGUI не найден! Повесьте компонент вручную.", this);
                     return;
                 }
             }
 
-            if (!isOn)
-            {   DoOff();
-                return;
-            }
-        }
-
-        private void InitPython()
-        {
             if(!isOnceInit)
             {
                 Debug.Log("🟢");
@@ -80,8 +68,6 @@ namespace CP2026
 
         public void LoopInput()
         {
-            if (!isOn) return;
-
             if(Keyboard.current.enterKey.wasPressedThisFrame && !isWait)
             {
                 switch(_mode)
@@ -164,25 +150,24 @@ namespace CP2026
         {   return answer == task.Answer;
         }
 
-        public void DoOn()
+        private void DoOn()
         {
             InitPython();
 
             _mode  = Mode.Start;
             isWait = false;
-
-            isOn = true;
-            textTMP.color = Color.green;
-            textTMP.fontMaterial.SetColor("_FaceColor", Color.green);
-            textTMP.text = "Добро пожаловать в систему!";
         }
 
-        public void DoOff()
+        private void DoOff()
         {   
-            isOn = false;
-            textTMP.color = Color.red;
-            textTMP.fontMaterial.SetColor("_FaceColor", Color.red);
-            textTMP.text = "... выключен ...";
+            
+        }
+
+        public void SetTextTMP(TextMeshProUGUI tmp)
+        {
+            textTMP = tmp;
+
+            DoOn();
         }
     }
 }
