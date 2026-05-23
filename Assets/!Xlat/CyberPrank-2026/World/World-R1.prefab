@@ -558,10 +558,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CP2026.Monitor
   accessDistance: 2
-  pythonExecutor: {fileID: 0}
   textTMP: {fileID: 6924061429055223927}
   isOn: 0
   colorWork: {r: 0, g: 1, b: 0, a: 1}
+  pythonExecutor: {fileID: 0}
   customKeyboardManager: {fileID: 1909055197672983458}
 --- !u!1 &1309674305065258556
 GameObject:
@@ -2732,9 +2732,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96be79776cfe18143b1d4497a40d5bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Fan
-  maxRPM: 2000
-  accelerationTime: 1
   rotor: {fileID: 8961933109606227123}
+  motionEffectMaterial: {fileID: 2100000, guid: 1e72e82fdfd24ef4d85b635beb5a7af0, type: 2}
 --- !u!1 &3501747343099627831
 GameObject:
   m_ObjectHideFlags: 0
@@ -4860,9 +4859,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96be79776cfe18143b1d4497a40d5bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Fan
-  maxRPM: 2000
-  accelerationTime: 1
   rotor: {fileID: 4622671697286024916}
+  motionEffectMaterial: {fileID: 2100000, guid: 1e72e82fdfd24ef4d85b635beb5a7af0, type: 2}
 --- !u!1 &6163857943784246097
 GameObject:
   m_ObjectHideFlags: 0

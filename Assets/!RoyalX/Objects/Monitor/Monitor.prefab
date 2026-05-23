@@ -65,7 +65,15 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: print('Hello world')
+  m_text: 'Left-click (LMB) on the keyboard to change the PC fan speed mode.
+
+
+    Left-click
+    the cyber cup to toggle the directional light.
+
+
+
+    Royal_X'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 730beb2126040c948a83f1d8c4c64f0f, type: 2}
   m_sharedMaterial: {fileID: 9106067000242691712, guid: 730beb2126040c948a83f1d8c4c64f0f, type: 2}
@@ -131,7 +139,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -60.167984, w: -65.69576}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -615,7 +623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2126d6837dd4040489b13ac789799eac, type: 3}
       propertyPath: m_Name
-      value: Monitor 1
+      value: Monitor
       objectReference: {fileID: 0}
     - target: {fileID: 6746461885082416485, guid: 2126d6837dd4040489b13ac789799eac, type: 3}
       propertyPath: m_LocalScale.x

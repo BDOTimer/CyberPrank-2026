@@ -101,7 +101,7 @@ namespace CP2026
             textTMP.fontMaterial.SetColor("_FaceColor", colorWork);
             textTMP.text = str + "Добро пожаловать в систему!\n" + Help;
 
-            SetSpeedFans(30);
+            SetSpeedFans(FanSpeed.Low);
 
             customKeyboardManager.On();
         }
@@ -119,11 +119,11 @@ namespace CP2026
             customKeyboardManager.Off();
         }
 
-        void SetSpeedFans(float speedPersent)
+        void SetSpeedFans(FanSpeed mode)
         {
             FansControl fc = GetComponent<FansControl>();
             if( fc != null )
-            {   fc.SetSpeed(speedPersent);
+            {   fc.SetSpeed(mode);
             }
         }
 

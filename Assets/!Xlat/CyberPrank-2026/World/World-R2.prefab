@@ -116,9 +116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96be79776cfe18143b1d4497a40d5bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  maxRPM: 2000
-  accelerationTime: 1
   rotor: {fileID: 8327495461558105409}
+  motionEffectMaterial: {fileID: 2100000, guid: 1e72e82fdfd24ef4d85b635beb5a7af0, type: 2}
 --- !u!1 &144568596243320082
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,6 +174,7 @@ MonoBehaviour:
   - {fileID: 6176597808544280781}
   - {fileID: 3094654950149349730}
   - {fileID: 7687418890831411996}
+  fanAudioSource: {fileID: 0}
 --- !u!1 &161796144599781845
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,10 +546,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CP2026.Monitor
   accessDistance: 1.92
-  pythonExecutor: {fileID: 0}
   textTMP: {fileID: 8494518277646060336}
   isOn: 0
   colorWork: {r: 0.05197579, g: 0.1509434, b: 0.073968604, a: 1}
+  pythonExecutor: {fileID: 0}
   customKeyboardManager: {fileID: 3678887559781830866}
 --- !u!114 &7441774772666351241
 MonoBehaviour:
@@ -3005,9 +3005,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96be79776cfe18143b1d4497a40d5bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  maxRPM: 2000
-  accelerationTime: 1
   rotor: {fileID: 5808406282202287623}
+  motionEffectMaterial: {fileID: 2100000, guid: 1e72e82fdfd24ef4d85b635beb5a7af0, type: 2}
 --- !u!1 &3584373235044422908
 GameObject:
   m_ObjectHideFlags: 0
@@ -4790,9 +4789,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96be79776cfe18143b1d4497a40d5bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  maxRPM: 2000
-  accelerationTime: 1
   rotor: {fileID: 7925422736348733040}
+  motionEffectMaterial: {fileID: 2100000, guid: 1e72e82fdfd24ef4d85b635beb5a7af0, type: 2}
 --- !u!1 &5589879035582136640
 GameObject:
   m_ObjectHideFlags: 0
@@ -6944,9 +6942,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96be79776cfe18143b1d4497a40d5bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  maxRPM: 2000
-  accelerationTime: 1
   rotor: {fileID: 343521246810194335}
+  motionEffectMaterial: {fileID: 2100000, guid: 1e72e82fdfd24ef4d85b635beb5a7af0, type: 2}
 --- !u!1 &8816434785248376029
 GameObject:
   m_ObjectHideFlags: 0

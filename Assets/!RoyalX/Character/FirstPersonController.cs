@@ -17,6 +17,8 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float maxInteractDistance = 10f;
     [SerializeField] private LayerMask interactLayerMask;
 
+    [HideInInspector] public bool IsKeys = true;
+
     private float targetRotationX = 0.0f;
     private float currentRotationX = 0.0f;
     private float targetRotationY = 0.0f;
@@ -38,8 +40,6 @@ public class FirstPersonController : MonoBehaviour
     private float verticalVelocity = 0.0f;
 
     private IInteractable interactableObject;
-
-    [HideInInspector] public bool IsKeys = true; /// +
 
     void Awake()
     {
@@ -83,9 +83,9 @@ public class FirstPersonController : MonoBehaviour
     void Update()
     {
         HandleCameraRotation();
-
-        if(IsKeys) /// +
-        {   HandleMovement();
+        if (IsKeys)
+        {
+            HandleMovement();
         }
     }
 
