@@ -26,8 +26,9 @@ namespace CP2026
         [SerializeField] private Color colorWork = Color.green;
 
         [Header("Control")]
-        [SerializeField] private PythonExecutor pythonExecutor;
+        [SerializeField] private PythonExecutor        pythonExecutor;
         [SerializeField] private CustomKeyboardManager customKeyboardManager;
+        [SerializeField] private DesktopPC             desktopPC;
 
         IGoodbye _goodbye;
 
@@ -114,16 +115,15 @@ namespace CP2026
             textTMP.fontMaterial.SetColor("_FaceColor", Color.red);
             textTMP.text = "... выключен ...";
 
-            SetSpeedFans(0);
+            SetSpeedFans(FanSpeed.Off);
 
             customKeyboardManager.Off();
         }
 
         void SetSpeedFans(FanSpeed mode)
         {
-            FansControl fc = GetComponent<FansControl>();
-            if( fc != null )
-            {   fc.SetSpeed(mode);
+            if( desktopPC != null )
+            {   desktopPC.SetFanSpeed(mode);
             }
         }
 
