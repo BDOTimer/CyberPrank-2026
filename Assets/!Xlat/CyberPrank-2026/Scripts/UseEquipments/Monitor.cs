@@ -28,7 +28,9 @@ namespace CP2026
         [Header("Control")]
         [SerializeField] private PythonExecutor        pythonExecutor;
         [SerializeField] private CustomKeyboardManager customKeyboardManager;
-        [SerializeField] private DesktopPC             desktopPC;
+
+        [Header("Опционально")]
+        [SerializeField] private DesktopPC desktopPC;
 
         IGoodbye _goodbye;
 
@@ -40,12 +42,10 @@ namespace CP2026
         "  cls  - Очистить экран\n"   +
         "  exit - Выключить компьютер\n";
 
-
         public static string[] Vob = new string[]
         {   "task",
             "help"
         };
-
 
         void Awake()
         {
@@ -58,6 +58,9 @@ namespace CP2026
         {
             if (isOn) DoOn ();
             else      DoOff();
+
+            textTMP.fontMaterial.EnableKeyword("GLOW_ON");
+            textTMP.fontMaterial.SetFloat("_GlowPower", 0.7f);
         }
 
         public string Name ()
@@ -96,11 +99,9 @@ namespace CP2026
 
             pythonExecutor.SetTextTMP( textTMP );
 
-            string str = textTMP.text + "\r\n";
-
             textTMP.color = colorWork;
             textTMP.fontMaterial.SetColor("_FaceColor", colorWork);
-            textTMP.text = str + "Добро пожаловать в систему!\n" + Help;
+            textTMP.text = "Добро пожаловать в систему!\n" + Help;
 
             SetSpeedFans(FanSpeed.Low);
 
@@ -120,10 +121,11 @@ namespace CP2026
             customKeyboardManager.Off();
         }
 
-        void SetSpeedFans(FanSpeed mode)
+        async void SetSpeedFans(FanSpeed mode)
         {
             if( desktopPC != null )
-            {   desktopPC.SetFanSpeed(mode);
+            {   await Awaitable.NextFrameAsync();
+                desktopPC.SetFanSpeed(mode);
             }
         }
 

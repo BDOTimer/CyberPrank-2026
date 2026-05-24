@@ -1,3 +1,7 @@
+///---------------------------------------------------------------------------|
+/// Редактор кода.
+///     - редактируется только нижняя строка.
+///---------------------------------------------------------------------------|
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -21,8 +25,6 @@ namespace CP2026
     /// [SerializeField] private bool enableShiftModifier = true;
         [SerializeField] private int  maxTextLength = 1000;
     
-        private StringBuilder  allBuilder;
-        private StringBuilder  strBuilder;
         private bool shiftPressed = false;
         private bool     capsLock = false;
     
@@ -32,15 +34,17 @@ namespace CP2026
 
         Keyboard keyboard;
 
+        ///------------------|
+        /// Буфер экрана.    |
+        ///------------------:
+        BuffersScreen _buffer;
+
         private void Awake()
         {
             keyboard = Keyboard.current;
             if (keyboard == null)
             {   Debug.LogWarning(keyboard == null);
             }
-            
-            allBuilder = new StringBuilder();
-            strBuilder = new StringBuilder();
 
             if (baseKeyMap == null)
             {   InitializeKeyMaps();
@@ -52,9 +56,8 @@ namespace CP2026
             // Находим компонент, если не назначен вручную
             if (targetText == null)
                 targetText = GetComponent<TextMeshProUGUI>();
-            
-            if (targetText != null)
-                allBuilder.Append(targetText.text);
+
+            _buffer = new BuffersScreen(targetText);
         }
 
         private void InitializeKeyMaps()
@@ -99,22 +102,6 @@ namespace CP2026
             baseKeyMap[Key.Space] = ' '; shiftKeyMap[Key.Space] = ' ';
         }
 
-        private void OnEnable()
-        {
-            if (enableKeyboardInput)
-            {
-                Keyboard.current.onTextInput += OnTextInput;
-            }
-        }
-
-        private void OnDisable()
-        {
-            if (enableKeyboardInput && Keyboard.current != null)
-            {
-                Keyboard.current.onTextInput -= OnTextInput;
-            }
-        }
-
         public void Loop()
         {
             if (!enableKeyboardInput) return;
@@ -143,7 +130,7 @@ namespace CP2026
             {
                 AddCharacter("\n"); // Перевод строки
 
-                SendText(strBuilder.ToString());
+                SendText(_buffer.GetStr());
             }
         
             if (keyboard.tabKey.wasPressedThisFrame)
@@ -160,16 +147,6 @@ namespace CP2026
                     AddCharacter(resultChar.ToString());
                     break;
                 }
-            }
-        }
-    
-        // Альтернативный метод через TextInput (рекомендуется для Unicode)
-        private void OnTextInput(char character)
-        {
-            // Фильтруем управляющие символы
-            if (character >= 32 && character != 127)
-            {
-                //AddCharacter(character.ToString());
             }
         }
     
@@ -193,67 +170,42 @@ namespace CP2026
         {
             if (targetText != null && targetText.text.Length < maxTextLength)
             {
-                allBuilder.Clear();
-                allBuilder.Append(targetText.text);
-            
-                // Вставка в позицию курсора (если реализовать)
-                // Для простоты добавляем в конец
-            
-                allBuilder.Append(character);
-                targetText.text = allBuilder.ToString();
-
-                if(character != "\n")
-                {
-                    strBuilder.Append(character);
-                }
+                _buffer.AddCharacter(character);
             }
         }
     
         // Кнопка удаления (Backspace)
         public void DeleteLastCharacter()
         {
-            if (targetText != null && targetText.text.Length > 0)
+            if (targetText != null)
             {
-                allBuilder.Clear();
-                allBuilder.Append(targetText.text);
-                allBuilder.Remove(allBuilder.Length - 1, 1);
-                targetText.text = allBuilder.ToString();
+                _buffer.DeleteLastCharacter();
             }
         }
     
         // Удаление с позиции курсора (если добавить)
-        public void DeleteAtPosition(int position)
+        public void xDeleteAtPosition(int position)
         {
             if (targetText != null && position >= 0 && position < targetText.text.Length)
             {
-                allBuilder.Clear();
-                allBuilder.Append(targetText.text);
-                allBuilder.Remove(position, 1);
-                targetText.text = allBuilder.ToString();
+                //allBuilder.Clear();
+                //allBuilder.Append(targetText.text);
+                //allBuilder.Remove(position, 1);
+                //targetText.text = allBuilder.ToString();
             }
         }
     
         // Вставка в определённую позицию
-        public void InsertAtPosition(string text, int position)
+        public void xInsertAtPosition(string text, int position)
         {
             if (targetText != null && position >= 0 && position <= targetText.text.Length)
             {
-                allBuilder.Clear();
-                allBuilder.Append(targetText.text);
-                allBuilder.Insert(position, text);
+                //allBuilder.Clear();
+                //allBuilder.Append(targetText.text);
+                //allBuilder.Insert(position, text);
             
-                if (allBuilder.Length <= maxTextLength)
-                    targetText.text = allBuilder.ToString();
-            }
-        }
-    
-        // Вспомогательная функция: Очистить всё поле
-        public void ClearText()
-        {
-            if (targetText != null)
-            {   targetText.text = "";
-                allBuilder.Clear();
-                strBuilder.Clear();
+                //if (allBuilder.Length <= maxTextLength)
+                //    targetText.text = allBuilder.ToString();
             }
         }
     
@@ -264,6 +216,8 @@ namespace CP2026
         public void On()
         {
             firstPersonController.IsKeys = false;
+
+            _buffer.Init();
         }
 
         public void Off()
@@ -275,22 +229,22 @@ namespace CP2026
         {
             if (strMessage.Length == 0) return;
 
-            Debug.Log(strMessage);
+            //Debug.Log(strMessage);
 
             if(strMessage == "exit")
-            {   monitor.Exit();
+            {   _buffer.ClearAll();
+                monitor.Exit();
                 return;
             }
 
             if(strMessage == "cls")
-            {   ClearText();
+            {   _buffer.ClearAll();
                 return;
             }
 
             if(strMessage == "exe")
-            {   pythonExecutor.SendText(allBuilder.ToString());
-                allBuilder.Clear();
-                strBuilder.Clear();
+            {   pythonExecutor.SendText(_buffer.GetNow());
+                _buffer.AfterCommand();
                 return;
             }
 
@@ -303,8 +257,94 @@ namespace CP2026
                 }
             }
 
-            allBuilder.Append(strMessage);
-            strBuilder.Clear();
+            _buffer.Str2Now();
+        }
+    }
+
+    ///-----------------------------------------------------------------------|
+    /// Экран.
+    ///-----------------------------------------------------------------------:
+    public class BuffersScreen
+    {
+        public BuffersScreen(TextMeshProUGUI screen)
+        {
+            Debug.Assert(screen != null);
+            
+            _screen = screen;
+        }
+
+        private TextMeshProUGUI     _screen;
+        private string               _const;
+        private StringBuilder  _now = new();
+        private StringBuilder  _str = new();
+
+        public string GetStr() => _str.ToString();
+        public string GetNow() => _now.ToString();
+
+        public void Init()
+        {
+            _const = _screen.text;
+
+            _now.Clear();
+            _str.Clear();
+        }
+
+        public void AfterCommand()
+        { 
+            _const = _screen.text + "\n";
+            _now.Clear();
+            _str.Clear();
+        }
+
+        public void All2Screen()
+        {   
+            _screen.text = _const + _now.ToString() + _str.ToString() + "\n";
+            _const = _screen.text;
+            _now.Clear();
+            _str.Clear();
+        }
+
+        /// После отрапвки команды на Питон-сервер,
+        /// Команда стирается с экрана.
+        public void Now2Screen()
+        {   
+            _screen.text = _const + _now.ToString() + "\n";
+            _const = _screen.text;
+            _now.Clear();
+            _str.Clear();
+        }
+
+        public void Str2Now()
+        {   _now.Append(_str + "\n");
+            _str.Clear();
+        }
+
+        public void ClearAll()
+        {   _screen.text = "";
+            _const       = "";
+            _now.Clear();
+            _str.Clear();
+        }
+
+        public void AddCharacter(string character)
+        {
+            // Вставка в позицию курсора (если реализовать)
+            // Для простоты добавляем в конец
+            
+            if(character != "\n")
+            {
+                _str.Append(character);
+                _screen.text = _const + _now.ToString() + _str.ToString();
+            }
+        }
+
+        // Кнопка удаления (Backspace)
+        public void DeleteLastCharacter()
+        {
+            if (_str.Length <= 0) return;
+
+            _str.Remove(_str.Length - 1, 1);
+            _screen.text = _const + _now.ToString() + _str.ToString();
         }
     }
 }

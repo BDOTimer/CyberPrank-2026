@@ -1,8 +1,6 @@
-using UnityEngine;
 using System.Runtime.InteropServices;
-using Unity.VisualScripting;
 using TMPro;
-using UnityEngine.InputSystem;
+using UnityEngine;
 
 namespace CP2026
 {
@@ -141,6 +139,7 @@ namespace CP2026
         public void ExecutePlayerCode(string pythonCode)
         {
             #if !UNITY_EDITOR && UNITY_WEBGL
+                textTMP.text += "\nExecutePlayerCode: ";
                 RunPython(pythonCode);
             #else
                 Debug.Log("⛔ Код выполняется только в WebGL сборке");
@@ -154,10 +153,21 @@ namespace CP2026
         {
             isWait = false;
 
-            if (textTMP != null)
-            {   textTMP.text = "Ответ Питона: " + text +
+            switch(_mode)
+            {
+                case Mode.Decision:
 
-                (ValidateAnswer(text) ? "Чувак, ты ошибься ..." : "Ответ принят!"); /// ❌ ✅
+                    if (textTMP != null)
+                    {   textTMP.text += text +
+
+                        (ValidateAnswer(text) ? "Чувак, ты ошибься ..."
+                                              : "Ответ принят!"); /// ❌ ✅
+                    }
+                    break;
+
+                default:
+                    textTMP.text += text;
+                    break;
             }
         }
 
@@ -165,7 +175,9 @@ namespace CP2026
         {   
             isWait = false;
 
-            Debug.Log($"Python успех: {message}");
+            if (textTMP != null)
+            {   textTMP.text += $" Успех: {message}";
+            }
         }
 
         public void OnPythonError(string error)
@@ -173,7 +185,7 @@ namespace CP2026
             isWait = false;
 
             if (textTMP != null)
-            {   textTMP.text = $"Ошибка: {error}";
+            {   textTMP.text += $" Ошибка: {error}";
             }
         }
 

@@ -7,15 +7,16 @@ namespace CP2026
     public class Lamp : MonoBehaviour, IControl
     {
         [SerializeField] private float accessDistance = 20f;
-        [SerializeField] private Material mat;
+        [SerializeField] private Material matOn;
+        [SerializeField] private Material matOff;
         [SerializeField] bool    isOn = false;
         [SerializeField] Light   lampLight;
 
         IGoodbye _goodbye;
 
         void Awake()
-        {
-            Debug.Assert( mat   != null );
+        {   Debug.Assert( matOn     != null );
+            Debug.Assert( matOff    != null );
             Debug.Assert( lampLight != null );
         }
 
@@ -27,7 +28,7 @@ namespace CP2026
         {   return name;
         }
 
-        public void  Control()
+        public void Control()
         {
         }
 
@@ -37,13 +38,9 @@ namespace CP2026
 
         public bool IsAccess(float distance)
         {   
-            Debug.Log("111");
-
             if(distance > accessDistance)
             {   return false;
             }
-
-            Debug.Log("222");
 
             isOn = !isOn;
             Done();
@@ -55,14 +52,11 @@ namespace CP2026
         {
             if(isOn)
             {   lampLight.enabled = true;
-                mat.color = Color.yellow;
-                mat.color = Color.yellow;
-                mat.SetColor("_FaceColor", Color.yellow);
+                GetComponent<Renderer>().material = matOn;
             }
             else
             {   lampLight.enabled = false;
-                mat.color = Color.black;
-                mat.SetColor("_FaceColor", Color.black);
+                GetComponent<Renderer>().material = matOff;
             }
         }
     }

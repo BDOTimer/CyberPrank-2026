@@ -102,7 +102,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32
 --- !u!1 &733400329599176891
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,6 +812,7 @@ MonoBehaviour:
   colorWork: {r: 0, g: 1, b: 0, a: 1}
   pythonExecutor: {fileID: 0}
   customKeyboardManager: {fileID: 8452112540231258621}
+  desktopPC: {fileID: 0}
 --- !u!1 &8481059129394501801
 GameObject:
   m_ObjectHideFlags: 0

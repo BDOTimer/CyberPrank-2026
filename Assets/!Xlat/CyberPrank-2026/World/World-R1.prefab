@@ -563,6 +563,7 @@ MonoBehaviour:
   colorWork: {r: 0, g: 1, b: 0, a: 1}
   pythonExecutor: {fileID: 0}
   customKeyboardManager: {fileID: 1909055197672983458}
+  desktopPC: {fileID: 0}
 --- !u!1 &1309674305065258556
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,7 +787,7 @@ GameObject:
   - component: {fileID: 7756937432254086660}
   - component: {fileID: 2714988400179428037}
   - component: {fileID: 6924061429055223927}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: TextTMP-2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -891,8 +892,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4282245686
-  m_fontColor: {r: 0.21333212, g: 0.8867924, b: 0.23740132, a: 1}
+    rgba: 4279041793
+  m_fontColor: {r: 0.0047169924, g: 1, b: 0.045222595, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3887,7 +3888,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32
 --- !u!1 &4623036028491341467
 GameObject:
   m_ObjectHideFlags: 0

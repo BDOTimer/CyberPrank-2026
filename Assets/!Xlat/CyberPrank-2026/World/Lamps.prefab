@@ -47,13 +47,21 @@ PrefabInstance:
       propertyPath: mat
       value: 
       objectReference: {fileID: 2100000, guid: 03aeb36a208846c4fa432a143f092d12, type: 2}
+    - target: {fileID: 1573277807447655845, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
+      propertyPath: matOn
+      value: 
+      objectReference: {fileID: 2100000, guid: edb5ca0da689e9040aa65584924a753d, type: 2}
+    - target: {fileID: 1573277807447655845, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
+      propertyPath: matOff
+      value: 
+      objectReference: {fileID: 2100000, guid: 03aeb36a208846c4fa432a143f092d12, type: 2}
     - target: {fileID: 1732714154051003664, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 03aeb36a208846c4fa432a143f092d12, type: 2}
     - target: {fileID: 3824004508929880501, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
       propertyPath: m_Name
-      value: Lamp-1 (3)
+      value: Lamp-4
       objectReference: {fileID: 0}
     - target: {fileID: 3865824064177066933, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
       propertyPath: m_LocalPosition.x
@@ -117,6 +125,14 @@ PrefabInstance:
       propertyPath: isOn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1573277807447655845, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
+      propertyPath: matOn
+      value: 
+      objectReference: {fileID: 2100000, guid: edb5ca0da689e9040aa65584924a753d, type: 2}
+    - target: {fileID: 1573277807447655845, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
+      propertyPath: matOff
+      value: 
+      objectReference: {fileID: 2100000, guid: 03aeb36a208846c4fa432a143f092d12, type: 2}
     - target: {fileID: 3824004508929880501, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
       propertyPath: m_Name
       value: Lamp-1
@@ -187,13 +203,21 @@ PrefabInstance:
       propertyPath: isOn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1573277807447655845, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
+      propertyPath: matOn
+      value: 
+      objectReference: {fileID: 2100000, guid: edb5ca0da689e9040aa65584924a753d, type: 2}
+    - target: {fileID: 1573277807447655845, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
+      propertyPath: matOff
+      value: 
+      objectReference: {fileID: 2100000, guid: 03aeb36a208846c4fa432a143f092d12, type: 2}
     - target: {fileID: 1732714154051003664, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: bfaa30032c5f0344d80c06fdda32290b, type: 2}
     - target: {fileID: 3824004508929880501, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
       propertyPath: m_Name
-      value: Lamp-1 (1)
+      value: Lamp-2
       objectReference: {fileID: 0}
     - target: {fileID: 3865824064177066933, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
       propertyPath: m_LocalPosition.x
@@ -261,13 +285,21 @@ PrefabInstance:
       propertyPath: isOn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1573277807447655845, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
+      propertyPath: matOn
+      value: 
+      objectReference: {fileID: 2100000, guid: edb5ca0da689e9040aa65584924a753d, type: 2}
+    - target: {fileID: 1573277807447655845, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
+      propertyPath: matOff
+      value: 
+      objectReference: {fileID: 2100000, guid: 03aeb36a208846c4fa432a143f092d12, type: 2}
     - target: {fileID: 1732714154051003664, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: edb5ca0da689e9040aa65584924a753d, type: 2}
     - target: {fileID: 3824004508929880501, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
       propertyPath: m_Name
-      value: Lamp-1 (2)
+      value: Lamp-3
       objectReference: {fileID: 0}
     - target: {fileID: 3865824064177066933, guid: 2e934fb1815e52246a86889fd3327496, type: 3}
       propertyPath: m_LocalPosition.x
