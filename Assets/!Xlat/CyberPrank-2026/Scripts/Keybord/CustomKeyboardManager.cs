@@ -4,6 +4,7 @@
 ///---------------------------------------------------------------------------|
 using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.TextCore.Text;
@@ -24,6 +25,7 @@ namespace CP2026
         [SerializeField] private bool enableKeyboardInput = true;
     /// [SerializeField] private bool enableShiftModifier = true;
         [SerializeField] private int  maxTextLength = 1000;
+        [SerializeField] private AudioClip soundClick;
     
         private bool shiftPressed = false;
         private bool     capsLock = false;
@@ -112,18 +114,18 @@ namespace CP2026
             // Переключение Caps Lock (при нажатии)
             if (keyboard.capsLockKey.wasPressedThisFrame)
             {
-                capsLock = !capsLock;
+                capsLock = !capsLock; PlayClick();
             }
         
             // Обработка специальных клавиш
             if (keyboard.backspaceKey.wasPressedThisFrame)
             {
-                DeleteLastCharacter();
+                DeleteLastCharacter(); PlayClick();
             }
         
             if (keyboard.deleteKey.wasPressedThisFrame)
             {
-                DeleteLastCharacter();
+                DeleteLastCharacter(); PlayClick();
             }
         
             if (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame)
@@ -131,11 +133,14 @@ namespace CP2026
                 AddCharacter("\n"); // Перевод строки
 
                 SendText(_buffer.GetStr());
+
+                PlayClick();
             }
         
             if (keyboard.tabKey.wasPressedThisFrame)
             {
                 AddCharacter("    "); // Табуляция (4 пробела)
+                PlayClick();
             }
         
             // Обработка обычных клавиш
@@ -145,6 +150,8 @@ namespace CP2026
                 {
                     char resultChar = GetCharacter(kvp.Key);
                     AddCharacter(resultChar.ToString());
+
+                    PlayClick();
                     break;
                 }
             }
@@ -212,6 +219,10 @@ namespace CP2026
         // Получить текущую раскладку для отображения (опционально)
         public bool IsShiftPressed => shiftPressed;
         public bool IsCapsLock => capsLock;
+
+        void PlayClick()
+        {   Service.Sound.Play(soundClick, 0.7f);
+        }
 
         public void On()
         {

@@ -1231,6 +1231,7 @@ MonoBehaviour:
   monitor: {fileID: 1842577274578314683}
   enableKeyboardInput: 1
   maxTextLength: 1000
+  soundClick: {fileID: 8300000, guid: 0fb364766a860804a8f601ee0db3cd54, type: 3}
 --- !u!1 &1687259344005966108
 GameObject:
   m_ObjectHideFlags: 0
@@ -8087,15 +8088,15 @@ MonoBehaviour:
 
     Royal_X'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 730beb2126040c948a83f1d8c4c64f0f, type: 2}
-  m_sharedMaterial: {fileID: 9106067000242691712, guid: 730beb2126040c948a83f1d8c4c64f0f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4278318336
+  m_fontColor: {r: 0, g: 0.9622642, b: 0.0026829143, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
