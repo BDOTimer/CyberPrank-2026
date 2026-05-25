@@ -266,6 +266,7 @@ MonoBehaviour:
   enableKeyboardInput: 1
   maxTextLength: 1000
   soundClick: {fileID: 8300000, guid: 0fb364766a860804a8f601ee0db3cd54, type: 3}
+  soundClickEnter: {fileID: 8300000, guid: 85f45a92ba9e3404aafeeb98bb343217, type: 3}
 --- !u!1 &1926540610128302164
 GameObject:
   m_ObjectHideFlags: 0

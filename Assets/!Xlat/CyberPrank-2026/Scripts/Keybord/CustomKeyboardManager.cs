@@ -26,6 +26,7 @@ namespace CP2026
     /// [SerializeField] private bool enableShiftModifier = true;
         [SerializeField] private int  maxTextLength = 1000;
         [SerializeField] private AudioClip soundClick;
+        [SerializeField] private AudioClip soundClickEnter;
     
         private bool shiftPressed = false;
         private bool     capsLock = false;
@@ -134,7 +135,7 @@ namespace CP2026
 
                 SendText(_buffer.GetStr());
 
-                PlayClick();
+                Service.Sound.Play(soundClickEnter, 0.7f);
             }
         
             if (keyboard.tabKey.wasPressedThisFrame)
