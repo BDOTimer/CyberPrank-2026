@@ -6218,6 +6218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1343195387569614197}
   - component: {fileID: 1909055197672983458}
+  - component: {fileID: 1181638102120660381}
   m_Layer: 0
   m_Name: KeyBoard
   m_TagString: Untagged
@@ -6261,6 +6262,21 @@ MonoBehaviour:
   maxTextLength: 1000
   soundClick: {fileID: 8300000, guid: 0fb364766a860804a8f601ee0db3cd54, type: 3}
   soundClickEnter: {fileID: 8300000, guid: 85f45a92ba9e3404aafeeb98bb343217, type: 3}
+--- !u!114 &1181638102120660381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8118263683563656972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 158a5f132c4b83640a0d740b20a59a55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CP2026.Cursor4TextEditorSimple
+  textTMP: {fileID: 6924061429055223927}
+  blinkInterval: 0.5
+  cursorColor: {r: 0.9601507, g: 1, b: 0, a: 1}
 --- !u!1 &8144437510560154623
 GameObject:
   m_ObjectHideFlags: 0

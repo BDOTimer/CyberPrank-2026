@@ -42,6 +42,8 @@ namespace CP2026
         ///------------------:
         BuffersScreen _buffer;
 
+        Cursor4TextEditorSimple cursor;
+
         private void Awake()
         {
             keyboard = Keyboard.current;
@@ -61,6 +63,10 @@ namespace CP2026
                 targetText = GetComponent<TextMeshProUGUI>();
 
             _buffer = new BuffersScreen(targetText);
+
+            cursor = GetComponent<Cursor4TextEditorSimple>();
+
+            Debug.Assert(cursor != null);
         }
 
         private void InitializeKeyMaps()
@@ -121,20 +127,20 @@ namespace CP2026
             // Обработка специальных клавиш
             if (keyboard.backspaceKey.wasPressedThisFrame)
             {
-                DeleteLastCharacter(); PlayClick();
+                DeleteLastCharacter();
             }
         
             if (keyboard.deleteKey.wasPressedThisFrame)
             {
-                DeleteLastCharacter(); PlayClick();
+                DeleteLastCharacter();
             }
         
             if (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame)
             {
-                AddCharacter("\n"); // Перевод строки
-
                 SendText(_buffer.GetStr());
 
+                ///AddCharacter(" ");
+                cursor.SetCursorPosition2End();
                 Service.Sound.Play(soundClickEnter, 0.7f);
             }
         
@@ -179,6 +185,8 @@ namespace CP2026
             if (targetText != null && targetText.text.Length < maxTextLength)
             {
                 _buffer.AddCharacter(character);
+
+                cursor.SetCursorPosition2End();
             }
         }
     
@@ -188,6 +196,10 @@ namespace CP2026
             if (targetText != null)
             {
                 _buffer.DeleteLastCharacter();
+
+                cursor.SetCursorPosition2End();
+
+                PlayClick();
             }
         }
     
@@ -230,11 +242,16 @@ namespace CP2026
             firstPersonController.IsKeys = false;
 
             _buffer.Init();
+
+            cursor.On();
+            cursor.SetCursorPosition2End();
         }
 
         public void Off()
         {
             firstPersonController.IsKeys = true;
+
+            if(cursor != null) cursor.Off();
         }
 
         void SendText(string strMessage)

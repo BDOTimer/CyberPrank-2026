@@ -6,10 +6,7 @@ public class DesktopPC : MonoBehaviour
     [SerializeField] private AudioSource fanAudioSource;
 
     private FanSpeed _currentSpeed;
-    void Start()
-    {
-        SetFanSpeed(FanSpeed.Low);
-    }
+ 
     public void SetFanSpeed(FanSpeed mode)
     {
         _currentSpeed = mode;

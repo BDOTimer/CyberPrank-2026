@@ -4,6 +4,10 @@ using UnityEngine;
 public class KeyboardFanControl : MonoBehaviour, IInteractable
 {
     [SerializeField] private DesktopPC desktopPC;
+    void Start()
+    {
+        desktopPC.SetFanSpeed(FanSpeed.Low);
+    }
 
     public void OnInteract(float hitDistance)
     {
