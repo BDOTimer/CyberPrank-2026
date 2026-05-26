@@ -76,9 +76,8 @@ namespace CP2026
             Test();
         }
 
-        public PythonTask GetTask(int idTask)
-        {   return _pythonTasks.Get(idTask);
-        }
+        public PythonTask GetTask  (int idTask){ return _pythonTasks.Get(idTask); }
+        public int        GetAmount(          ){ return _pythonTasks.GetAmount(); }
 
         private void Test()
         {   Debug.Log($"🔭");

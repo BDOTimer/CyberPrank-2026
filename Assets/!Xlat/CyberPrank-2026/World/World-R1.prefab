@@ -841,7 +841,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'NewText123456789NewText123456789NewText12345678123456*
+  m_text: 'NewText1<color=#FFD700>23456789NewTe</color>xt123456789NewText12345678123456*
 
     9
 
@@ -6277,6 +6277,7 @@ MonoBehaviour:
   textTMP: {fileID: 6924061429055223927}
   blinkInterval: 0.5
   cursorColor: {r: 0.9601507, g: 1, b: 0, a: 1}
+  scaleY: 0.945
 --- !u!1 &8144437510560154623
 GameObject:
   m_ObjectHideFlags: 0

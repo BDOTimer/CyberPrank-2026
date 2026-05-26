@@ -103,29 +103,26 @@ namespace CP2026
             }
         }
 
-        public void SendCommand(string command)
+        public string SendCommand(string command)
         {
-            Debug.Log($"🟢 {command}");
-
             if(command == "task" && _mode != Mode.Condition)
             {   
+                Debug.Log($"🟢🟢🟢 {command}");
                 _mode = Mode.Condition;
 
-                task = CP2026.XlatPythonTasks.Instance.GetTask(idTask++);
+                GetTask();
 
-                textTMP.text = task.Name + "\n" + task.Condition + "\n";
-                return;
+                return task.Name + "\n" + task.Condition + "\n";
             }
 
             if(command == "help" && _mode == Mode.Condition)
             {   
                 _mode = Mode.Decision;
 
-                textTMP.text += "\n" + task.Decision + "\n";
-                return;
+                return "\n" + task.Decision + "\n";
             }
 
-            textTMP.text = "\n<color=#FFD700>... попробуй другую команду ...</color>\n";
+            return "\n<color=#FFD700>... попробуй другую команду ...</color>\n";
         }
 
         public void SendText(string message)
@@ -160,9 +157,10 @@ namespace CP2026
                     if (textTMP != null)
                     {   textTMP.text += text +
 
-                        (ValidateAnswer(text) ? "Чувак, ты ошибься ..."
-                                              : "Ответ принят!"); /// ❌ ✅
+                        (ValidateAnswer(text) ? "\nЧувак, ты ошибься ..."
+                                              : "\nОтвет принят!"); /// ❌ ✅
                     }
+                    _mode = Mode.End;
                     break;
 
                 default:
@@ -211,6 +209,18 @@ namespace CP2026
             textTMP = tmp;
 
             DoOn();
+        }
+
+        void GetTask()
+        {
+            long ticks = System.DateTime.Now.Ticks;
+
+            uint randomSeed = (uint)System.Guid.NewGuid().GetHashCode();
+            if (randomSeed == 0) randomSeed = 1;
+            Unity.Mathematics.Random rng = new Unity.Mathematics.Random(randomSeed);
+            int randomNumber = rng.NextInt(0, CP2026.XlatPythonTasks.Instance.GetAmount());
+
+            task = CP2026.XlatPythonTasks.Instance.GetTask(randomNumber);
         }
     }
 }

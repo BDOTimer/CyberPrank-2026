@@ -35,7 +35,7 @@ namespace CP2026
         IGoodbye _goodbye;
 
         static string Help =
-        "\nСПРАВКА:\n" +
+        "\n<color=#FFD700>СПРАВКА:</color>\n" +
         "  task - Получить задание\n" +
         "  exe  - Послать  решение\n" +
         "  help - Получить решение\n" +
@@ -99,6 +99,7 @@ namespace CP2026
 
             pythonExecutor.SetTextTMP( textTMP );
 
+            textTMP.richText = true;
             textTMP.color = colorWork;
             textTMP.fontMaterial.SetColor("_FaceColor", colorWork);
             textTMP.text = "Добро пожаловать в систему!\n" + Help;

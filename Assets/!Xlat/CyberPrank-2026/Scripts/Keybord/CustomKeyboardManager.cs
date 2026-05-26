@@ -282,7 +282,11 @@ namespace CP2026
                 //Debug.Log($"item: {item} : {item.Length}");
 
                 if(item == strMessage)
-                {   pythonExecutor.SendCommand(strMessage);
+                {   string now = pythonExecutor.SendCommand(strMessage);
+                    _buffer.Set2Now(now);
+
+                    Debug.Log(now);
+                    return;
                 }
             }
 
@@ -319,14 +323,14 @@ namespace CP2026
         }
 
         public void AfterCommand()
-        { 
+        {
             _const = _screen.text + "\n";
             _now.Clear();
             _str.Clear();
         }
 
         public void All2Screen()
-        {   
+        {  
             _screen.text = _const + _now.ToString() + _str.ToString() + "\n";
             _const = _screen.text;
             _now.Clear();
@@ -344,7 +348,11 @@ namespace CP2026
         }
 
         public void Str2Now()
-        {   _now.Append(_str + "\n");
+        {
+            if (_str.Length == 0) return;
+            
+            _now.Append(_str + "\n");
+            _screen.text = _const + _now.ToString();
             _str.Clear();
         }
 
@@ -353,6 +361,12 @@ namespace CP2026
             _const       = "";
             _now.Clear();
             _str.Clear();
+        }
+
+        public void Set2Now(string strNow)
+        {    Now2Screen();
+            _now.Append(strNow);
+            _screen.text = _const + _now.ToString();
         }
 
         public void AddCharacter(string character)

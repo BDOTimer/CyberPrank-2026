@@ -9,7 +9,8 @@ namespace CP2026
     {
         [SerializeField] private TextMeshProUGUI textTMP;
         [SerializeField] private float blinkInterval = 0.5f;
-        [SerializeField] private Color cursorColor = Color.white;
+        [SerializeField] private Color cursorColor   = Color.white;
+        [SerializeField] private float scaleY        = 0.945f;
 
         private LineRenderer lineRenderer;
         private int          cursorPosition = 0;
@@ -17,41 +18,29 @@ namespace CP2026
         private Coroutine    blinkCoroutine;
         private Coroutine    updatePositionCoroutine;
 
+        PositionsCursorOfNewLines positionsCursorOfNewLines;
+
+        void Awake()
+        {
+            positionsCursorOfNewLines = new PositionsCursorOfNewLines();
+            positionsCursorOfNewLines.Setup(textTMP);
+        }
+
         void Start()
         {
             CreateLineCursor();
             StartCursor();
             SetCursorPosition2End();
-        }
 
-        // === ПУБЛИЧНЫЕ МЕТОДЫ ВКЛЮЧЕНИЯ/ВЫКЛЮЧЕНИЯ ===
-        
-        public void On()
-        {
-            if (isActive) return;
-            
-            isActive = true;
-            StartCursor();
-            Debug.Log("Cursor enabled");
-        }
-        
-        public void Off()
-        {
-            if (!isActive) return;
-            
-            isActive = false;
-            StopCursor();
-            Debug.Log("Cursor disabled");
+            //Test();
         }
         
         private void StartCursor()
         {
-            if (blinkCoroutine != null)
-                StopCoroutine(blinkCoroutine);
-            if (updatePositionCoroutine != null)
-                StopCoroutine(updatePositionCoroutine);
+            if (blinkCoroutine          != null) StopCoroutine(blinkCoroutine);
+            if (updatePositionCoroutine != null) StopCoroutine(updatePositionCoroutine);
             
-            blinkCoroutine = StartCoroutine(BlinkCursor());
+            blinkCoroutine          = StartCoroutine(BlinkCursor());
             updatePositionCoroutine = StartCoroutine(UpdateCursorPosition());
             
             if (lineRenderer != null)
@@ -60,10 +49,8 @@ namespace CP2026
         
         private void StopCursor()
         {
-            if (blinkCoroutine != null)
-                StopCoroutine(blinkCoroutine);
-            if (updatePositionCoroutine != null)
-                StopCoroutine(updatePositionCoroutine);
+            if (blinkCoroutine          != null) StopCoroutine(blinkCoroutine);
+            if (updatePositionCoroutine != null) StopCoroutine(updatePositionCoroutine);
             
             if (lineRenderer != null)
                 lineRenderer.enabled = false;
@@ -178,7 +165,6 @@ namespace CP2026
                 string newText = textTMP.text.Remove(cursorPosition - 1, 1);
                 textTMP.text = newText;
                 cursorPosition--;
-                textTMP.ForceMeshUpdate();
             }
         }
         
@@ -212,20 +198,26 @@ namespace CP2026
 
         // === МЕТОДЫ ПОЗИЦИОНИРОВАНИЯ КУРСОРА ===
         
-        Vector3 GetCursorPosition()
+        Vector3 GetCursorPosition()///////////////////////////////////////////////////////////////
         {
             textTMP.ForceMeshUpdate();
-            
+
+            if(textTMP.text == "")
+            {   return GetCursorPositionStart();
+            }
+
+            if(textTMP.text[textTMP.text.Length - 1] == '\n')
+            {   return GetCursorPositionStart(textTMP.textInfo.lineCount -1);
+            }
+
             if (cursorPosition >= textTMP.text.Length)
             {
                 return GetPositionAtTextEnd();
             }
             
             if (cursorPosition < textTMP.text.Length)
-            {
-                char currentChar = textTMP.text[cursorPosition];
-                
-                if (currentChar == '\n')
+            {   char currentChar = textTMP.text[cursorPosition];
+                if ( currentChar == '\n')
                 {
                     return GetPositionAfterNewline(cursorPosition);
                 }
@@ -241,7 +233,8 @@ namespace CP2026
             if (tmpCharIndex >= 0 && tmpCharIndex < textTMP.textInfo.characterCount)
             {
                 TMP_CharacterInfo charInfo = textTMP.textInfo.characterInfo[tmpCharIndex];
-                Vector3 pos = charInfo.bottomRight;
+            /// Vector3 pos = charInfo.bottomRight;
+                Vector3 pos = charInfo.topRight;
                 return textTMP.transform.TransformPoint(pos);
             }
             
@@ -290,13 +283,16 @@ namespace CP2026
             return GetPositionAtTextEnd();
         }
         
-        Vector3 GetPositionAtTextEnd()
+        Vector3 GetPositionAtTextEnd() ///////////////////////////////////////////////////////////
         {
             int charCount = textTMP.textInfo.characterCount;
-            
             if (charCount == 0)
                 return textTMP.transform.position;
-                
+
+            ///////////////////////////////////////////
+            bool isN = textTMP.text[cursorPosition-1] == '\n';
+            ///////////////////////////////////////////
+
             TMP_LineInfo lastLine = textTMP.textInfo.lineInfo[textTMP.textInfo.lineCount - 1];
             
             int lastCharIndex = lastLine.lastCharacterIndex;
@@ -304,8 +300,14 @@ namespace CP2026
             if (lastCharIndex >= 0 && lastCharIndex < charCount)
             {
                 TMP_CharacterInfo lastChar = textTMP.textInfo.characterInfo[lastCharIndex];
-                Vector3 pos = lastChar.bottomRight;
-                return textTMP.transform.TransformPoint(pos);
+                Vector3 pos    = lastChar.bottomRight;
+
+                Vector3 pos1   = textTMP.transform.TransformPoint(pos);
+                if(isN) pos1.z = textTMP.transform.position.z;
+
+                //Debug.Log($"isN: {isN}");
+
+                return pos1;
             }
             
             if (lastLine.firstCharacterIndex < charCount)
@@ -318,62 +320,6 @@ namespace CP2026
             return textTMP.transform.position;
         }
 
-        /// <summary>
-        /// Получает позицию в начале новой строки после символа \n
-        /// </summary>
-        Vector3 GetPositionAtNewLineStart(int newlineIndex)
-        {
-            textTMP.ForceMeshUpdate();
-    
-            // Ищем следующую строку после переноса
-            for (int i = 0; i < textTMP.textInfo.lineCount; i++)
-            {
-                TMP_LineInfo line = textTMP.textInfo.lineInfo[i];
-        
-                // Если нашли строку, которая начинается после нашего переноса
-                if (line.firstCharacterIndex > newlineIndex)
-                {
-                    if (line.firstCharacterIndex < textTMP.textInfo.characterCount)
-                    {
-                        // Берём начало этой строки
-                        TMP_CharacterInfo firstChar = textTMP.textInfo.characterInfo[line.firstCharacterIndex];
-                        return textTMP.transform.TransformPoint(firstChar.topLeft);
-                    }
-                }
-            }
-    
-            // Если \n в конце текста - создаём новую строку
-            return GetPositionAtTextEnd() + Vector3.down * 0.05f;
-        }
-        
-        Vector3 GetStartOfLastLine()
-        {
-            TMP_LineInfo lastLine = textTMP.textInfo.lineInfo[textTMP.textInfo.lineCount - 1];
-            
-            if (lastLine.firstCharacterIndex < textTMP.textInfo.characterCount)
-            {
-                TMP_CharacterInfo firstChar = textTMP.textInfo.characterInfo[lastLine.firstCharacterIndex];
-                Vector3 pos = firstChar.topLeft;
-                return textTMP.transform.TransformPoint(pos);
-            }
-            
-            return textTMP.transform.position;
-        }
-
-        // === ПУБЛИЧНЫЕ МЕТОДЫ ===
-        
-        public void SetCursorPosition(int position)
-        {
-            cursorPosition = Mathf.Clamp(position, 0, textTMP.text.Length);
-            textTMP.ForceMeshUpdate();
-        }
-
-        public void SetCursorPosition2End()
-        {
-            cursorPosition = textTMP.text.Length;
-            SetCursorPosition(cursorPosition);
-        }
-        
         public void OnPointerClick(PointerEventData eventData)
         {
             On();
@@ -397,25 +343,129 @@ namespace CP2026
         }
         
         // Для отладки
-        void OnDrawGizmos()
-        {
-            if (textTMP == null || Application.isPlaying == false) return;
+        //void OnDrawGizmos()
+        //{
+        //    if (textTMP == null || Application.isPlaying == false) return;
             
-            textTMP.ForceMeshUpdate();
+        //    textTMP.ForceMeshUpdate();
             
-            for (int i = 0; i < textTMP.textInfo.lineCount; i++)
-            {
-                TMP_LineInfo line = textTMP.textInfo.lineInfo[i];
+        //    for (int i = 0; i < textTMP.textInfo.lineCount; i++)
+        //    {
+        //        TMP_LineInfo line = textTMP.textInfo.lineInfo[i];
                 
-                if (line.firstCharacterIndex < textTMP.textInfo.characterCount)
-                {
-                    Vector3 startPos = textTMP.transform.TransformPoint(
-                        textTMP.textInfo.characterInfo[line.firstCharacterIndex].topLeft
-                    );
-                    Gizmos.color = Color.green;
-                    Gizmos.DrawWireSphere(startPos, 0.01f);
-                }
-            }
+        //        if (line.firstCharacterIndex < textTMP.textInfo.characterCount)
+        //        {
+        //            Vector3 startPos = textTMP.transform.TransformPoint(
+        //                textTMP.textInfo.characterInfo[line.firstCharacterIndex].topLeft
+        //            );
+        //            Gizmos.color = Color.green;
+        //            Gizmos.DrawWireSphere(startPos, 0.01f);
+        //        }
+        //    }
+        //}
+
+        // === ПУБЛИЧНЫЕ МЕТОДЫ ВКЛЮЧЕНИЯ/ВЫКЛЮЧЕНИЯ ===
+        
+        public void On()
+        {
+            if (isActive) return;
+            
+            isActive = true;
+            StartCursor();
+            Debug.Log("Cursor enabled");
+        }
+        
+        public void Off()
+        {
+            if (!isActive) return;
+            
+            isActive = false;
+            StopCursor();
+            Debug.Log("Cursor disabled");
+        }
+
+        public void SetCursorPosition(int position)
+        {
+            cursorPosition = Mathf.Clamp(position, 0, textTMP.text.Length);
+            textTMP.ForceMeshUpdate();
+        }
+
+        public void SetCursorPosition2End()
+        {
+            cursorPosition = textTMP.text.Length;
+            SetCursorPosition(cursorPosition);
+        }
+
+        ///////////////////////////////////////////////////////////////////////
+
+        Vector3 GetCursorPositionStart(int lineCount = 0)
+        {    
+            // Получаем углы текста в мировых координатах
+            Vector3[] corners = new Vector3[4];
+
+            //textTMP.rectTransform.GetWorldCorners(corners);
+
+            textTMP.rectTransform.GetLocalCorners(corners);
+
+            corners[1].y -= GetLineSpacingSimple() + lineCount * 
+                            textTMP.font.faceInfo.lineHeight * scaleY;
+
+            return textTMP.transform.TransformPoint(corners[1]);
+        }
+
+        float GetLineSpacingSimple()
+        {
+            // Базовая высота строки из шрифта
+            float  baseLineHeight = textTMP.font.faceInfo.lineHeight * 0.5f;
+            return baseLineHeight;
+        }
+
+        Vector3 GetPositionNewLine() /////////////////////////////////////////////////////////////
+        {
+            int lineCount = textTMP.textInfo.lineCount;
+            
+            return GetCursorPositionStart(lineCount);
+        }
+    }
+
+
+    ///-----------------------------------------------------------------------|
+    /// Предвычисленные ЛОКАЛЬНЫЕ позиции курсора в начале N строк.
+    ///-----------------------------------------------------------------------:
+    public class PositionsCursorOfNewLines
+    {
+        Vector3  posStart;
+        float LineSpacing;
+
+        public void Setup(TextMeshProUGUI textTMP)
+        {
+            string mem = textTMP.text;
+
+            textTMP.text = "a\na\n";
+            textTMP.ForceMeshUpdate();
+
+            posStart    = GetLocalPositionOfFirstCharacterPrecise(textTMP, 0);
+            LineSpacing = GetLocalPositionOfFirstCharacterPrecise(textTMP, 1).y
+                        - posStart.y;
+
+            textTMP.text = mem;
+        }
+
+        public Vector3 Get(int numberLine)
+        {
+            Vector3 pos = posStart;
+
+            posStart.y += numberLine * LineSpacing;
+
+            return pos;
+        }
+
+        Vector3 GetLocalPositionOfFirstCharacterPrecise(TextMeshProUGUI textTMP, int lineIndex)
+        {            
+            TMP_LineInfo targetLine = textTMP.textInfo.lineInfo[lineIndex];
+            int firstCharIndex = targetLine.firstCharacterIndex;
+    
+            return textTMP.textInfo.characterInfo[firstCharIndex].bottomLeft;
         }
     }
 }

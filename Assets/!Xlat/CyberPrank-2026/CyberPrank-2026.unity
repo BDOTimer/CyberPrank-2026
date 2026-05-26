@@ -20,12 +20,12 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0, g: 0.0062893042, b: 0.01886791, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_SubtractiveShadowColor: {r: 0.21626912, g: 0.25118047, b: 0.33962262, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -603,6 +603,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4865d57b7b9d3234582d0894500f62ec, type: 3}
+--- !u!20 &1578284025 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6797391230494315558, guid: c319e7771bf22004cb91e7196d66077f, type: 3}
+  m_PrefabInstance: {fileID: 3541849193565965043}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2034772453
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,6 +710,10 @@ PrefabInstance:
       propertyPath: pythonExecutor
       value: 
       objectReference: {fileID: 5631043875254507746}
+    - target: {fileID: 2923988745560787451, guid: 47fd750fb18b3374dba509f262e308b8, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1578284025}
     - target: {fileID: 6646054179949216616, guid: 47fd750fb18b3374dba509f262e308b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
