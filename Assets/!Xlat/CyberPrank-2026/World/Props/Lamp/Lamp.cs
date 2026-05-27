@@ -12,8 +12,6 @@ namespace CP2026
         [SerializeField] bool    isOn = false;
         [SerializeField] Light   lampLight;
 
-        IGoodbye _goodbye;
-
         void Awake()
         {   Debug.Assert( matOn     != null );
             Debug.Assert( matOff    != null );
@@ -33,7 +31,7 @@ namespace CP2026
         }
 
         public void Hello(IGoodbye goodbye)
-        {   _goodbye = goodbye;
+        {
         }
 
         public bool IsAccess(float distance)

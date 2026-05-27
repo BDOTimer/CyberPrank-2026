@@ -5,18 +5,18 @@ using UnityEngine.AI;
 public class Cat : MonoBehaviour
 {
     private NavMeshAgent agent;
-    private Animator     animator;
-    private AudioSource  audioSource;
+    private Animator animator;
+    private AudioSource audioSource;
     private float wanderRadius = 10f;
-    private float sampleRadius =  5f;
-    private bool  isWaiting  = false;
-    private bool  showDebug  = false;
-    private Coroutine  meowCoroutine;
+    private float sampleRadius = 5f;
+    private bool isWaiting = false;
+    private bool showDebug = false;
+    private Coroutine meowCoroutine;
 
     void Awake()
     {
-        animator    = GetComponent<Animator>();
-        agent       = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+        agent = GetComponent<NavMeshAgent>();
         audioSource = GetComponent<AudioSource>();
     }
 

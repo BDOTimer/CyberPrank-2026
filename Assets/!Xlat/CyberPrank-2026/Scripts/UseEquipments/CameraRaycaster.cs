@@ -98,15 +98,15 @@ namespace CP2026
             {
                 /// Debug.Log("=🟢🟢🟢=");
 
-                if( _iControl != null )
-                {   _iControl.Hello(null);
-                }
-
                 if( iControl.IsAccess(GetDistance(_body, detectedObject.transform)) )
-                {   iControl.Hello(this);
+                {   
+                    iControl.Hello(this);
 
                     Debug.Log($"Объект {iControl.Name()} взят под управление ...");
 
+                    if( _iControl != null )
+                    {   _iControl.Hello(null);
+                    }
                     _iControl = iControl;
                 }
                 else
