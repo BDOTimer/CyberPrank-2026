@@ -239,7 +239,7 @@ namespace CP2026
 
         public void On()
         {
-            firstPersonController.IsKeys = false;
+            firstPersonController.CanMove = false;
 
             _buffer.Init();
 
@@ -249,7 +249,7 @@ namespace CP2026
 
         public void Off()
         {
-            firstPersonController.IsKeys = true;
+            firstPersonController.CanMove = true;
 
             if(cursor != null) cursor.Off();
         }
